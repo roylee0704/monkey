@@ -2,9 +2,10 @@ package main
 
 import (
 	"fmt"
-	"go/token"
+
+	"github.com/roylee0704/monkey/token"
 )
 
 func main() {
-	fmt.Println(token.ADD)
+	fmt.Println(token.PLUS)
 }
