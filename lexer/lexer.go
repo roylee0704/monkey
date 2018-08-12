@@ -55,6 +55,8 @@ func (l *lexer) NextToken() token.Token {
 		tok = token.New(token.LPAREN, l.tok)
 	case ')':
 		tok = token.New(token.RPAREN, l.tok)
+	case ',':
+		tok = token.New(token.COMMA, l.tok)
 	case 0:
 		tok.Typ = token.EOF
 		tok.Literal = ""
