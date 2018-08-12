@@ -4,6 +4,12 @@ package token
 type Type string
 
 const (
+	// ILLEGAL signifies token that we don't know about
+	ILLEGAL = "ILLEGAL"
+
+	// EOF signifies when to stop lexing
+	EOF = "EOF"
+
 	// LET is a keyword
 	LET = "LET"
 	// FUNCTION is a keyword
