@@ -17,7 +17,6 @@ type Type string
 const (
 	// ILLEGAL signifies token that we don't know about
 	ILLEGAL = "ILLEGAL"
-
 	// EOF signifies when to stop lexing
 	EOF = "EOF"
 
@@ -33,6 +32,8 @@ const (
 
 	// SEMICOLON is a delimeter
 	SEMICOLON = ";"
+	// COMMA is a delimeter
+	COMMA = ","
 	// LBRACE is a delimeter
 	LBRACE = "{"
 	// RBRACE is a delimeter
