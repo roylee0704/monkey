@@ -1,5 +1,11 @@
 package token
 
+// Token holds token information
+type Token struct {
+	Typ     Type
+	Literal string
+}
+
 // Type is a token identifier
 type Type string
 
@@ -32,8 +38,8 @@ const (
 	RPAREN = ")"
 
 	// PLUS is an arithmetic operator
-	PLUS = "PLUS"
+	PLUS = "+"
 
 	// EQUAL is an arithmetic operator
-	EQUAL = "EQUAL"
+	EQUAL = "="
 )
