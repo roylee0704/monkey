@@ -15,69 +15,57 @@ type Lexer interface {
 type lexer struct {
 	input string
 	start int
-	pos   int
+	next  int
+
+	tok byte
 }
 
-func (l *lexer) consume(tkn string) bool {
-	n := len(tkn)
-	end := l.pos + n
-	val := l.input[l.start:end]
-
-	if val != tkn {
-		return false
+// readChar advances `next` by reading 1 byte to `tok`
+// from `input` at a time.
+//
+// On top of that, byte '0' is assigned to tok if `next`
+// hits the limit of input length.
+func (l *lexer) readChar() {
+	if l.next > len(l.input) {
+		l.tok = 0
+	} else {
+		l.tok = l.input[l.next]
 	}
 
-	l.pos = end
-	l.start = l.pos
-	return true
+	l.start = l.next
+	l.next = l.next + 1
 }
 
 func (l *lexer) NextToken() token.Token {
-	if l.consume(token.PLUS) {
-		return token.Token{
-			Typ:     token.PLUS,
-			Literal: token.PLUS,
-		}
-	} else if l.consume(token.EQUAL) {
-		return token.Token{
-			Typ:     token.EQUAL,
-			Literal: token.EQUAL,
-		}
-	} else if l.consume(token.SEMICOLON) {
-		return token.Token{
-			Typ:     token.SEMICOLON,
-			Literal: token.SEMICOLON,
-		}
-	} else if l.consume(token.LBRACE) {
-		return token.Token{
-			Typ:     token.LBRACE,
-			Literal: "{",
-		}
-	} else if l.consume(token.RBRACE) {
-		return token.Token{
-			Typ:     token.RBRACE,
-			Literal: "}",
-		}
-	} else if l.consume(token.LPAREN) {
-		return token.Token{
-			Typ:     token.LPAREN,
-			Literal: token.LPAREN,
-		}
-	} else if l.consume(token.RPAREN) {
-		return token.Token{
-			Typ:     token.RPAREN,
-			Literal: token.RPAREN,
-		}
-	} else {
-		return token.Token{}
+	l.readChar()
+
+	var tok token.Token
+	switch l.tok {
+	case '+':
+		tok = token.New(token.PLUS, l.tok)
+	case '=':
+		tok = token.New(token.EQUAL, l.tok)
+	case ';':
+		tok = token.New(token.SEMICOLON, l.tok)
+	case '{':
+		tok = token.New(token.LBRACE, l.tok)
+	case '}':
+		tok = token.New(token.RBRACE, l.tok)
+	case '(':
+		tok = token.New(token.LPAREN, l.tok)
+	case ')':
+		tok = token.New(token.RPAREN, l.tok)
+	case 0:
+		tok.Typ = token.EOF
+		tok.Literal = ""
+	default:
+		tok.Typ = token.ILLEGAL
+		tok.Literal = "line ?"
 	}
+	return tok
 }
 
 // New intantiate a lexer with input
 func New(input string) Lexer {
-	return &lexer{
-		input: input,
-		start: 0,
-		pos:   0,
-	}
+	return &lexer{input: input}
 }

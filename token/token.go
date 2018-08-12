@@ -6,6 +6,11 @@ type Token struct {
 	Literal string
 }
 
+// New returns new Token with token type and literal value
+func New(typ Type, ch byte) Token {
+	return Token{Typ: typ, Literal: string(ch)}
+}
+
 // Type is a token identifier
 type Type string
 
