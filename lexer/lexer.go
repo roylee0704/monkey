@@ -1,6 +1,8 @@
 package lexer
 
-import "github.com/roylee0704/monkey/token"
+import (
+	"github.com/roylee0704/monkey/token"
+)
 
 // Lexer provides an interface that tokenise
 // an array of characters
@@ -16,51 +18,55 @@ type lexer struct {
 	pos   int
 }
 
+func (l *lexer) consume(tkn string) bool {
+	n := len(tkn)
+	end := l.pos + n
+	val := l.input[l.start:end]
+
+	if val != tkn {
+		return false
+	}
+
+	l.pos = end
+	l.start = l.pos
+	return true
+}
+
 func (l *lexer) NextToken() token.Token {
-
-	val := l.input[l.pos : l.pos+1]
-
-	if val == token.PLUS {
-		l.pos++
+	if l.consume(token.PLUS) {
 		return token.Token{
 			Typ:     token.PLUS,
-			Literal: val,
+			Literal: token.PLUS,
 		}
-	} else if val == token.EQUAL {
-		l.pos++
+	} else if l.consume(token.EQUAL) {
 		return token.Token{
 			Typ:     token.EQUAL,
-			Literal: val,
+			Literal: token.EQUAL,
 		}
-	} else if val == token.SEMICOLON {
-		l.pos++
+	} else if l.consume(token.SEMICOLON) {
 		return token.Token{
 			Typ:     token.SEMICOLON,
-			Literal: val,
+			Literal: token.SEMICOLON,
 		}
-	} else if val == token.LBRACE {
-		l.pos++
+	} else if l.consume(token.LBRACE) {
 		return token.Token{
 			Typ:     token.LBRACE,
-			Literal: val,
+			Literal: "{",
 		}
-	} else if val == token.RBRACE {
-		l.pos++
+	} else if l.consume(token.RBRACE) {
 		return token.Token{
 			Typ:     token.RBRACE,
-			Literal: val,
+			Literal: "}",
 		}
-	} else if val == token.LPAREN {
-		l.pos++
+	} else if l.consume(token.LPAREN) {
 		return token.Token{
 			Typ:     token.LPAREN,
-			Literal: val,
+			Literal: token.LPAREN,
 		}
-	} else if val == token.RPAREN {
-		l.pos++
+	} else if l.consume(token.RPAREN) {
 		return token.Token{
 			Typ:     token.RPAREN,
-			Literal: val,
+			Literal: token.RPAREN,
 		}
 	} else {
 		return token.Token{}
