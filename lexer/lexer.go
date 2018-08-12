@@ -57,6 +57,9 @@ func (l *lexer) NextToken() token.Token {
 		tok = token.New(token.RPAREN, l.tok)
 	case ',':
 		tok = token.New(token.COMMA, l.tok)
+
+	// todo: on case of multicharacter: identifier, keyword, integer
+	// todo: skipping whitespaces
 	case 0:
 		tok.Typ = token.EOF
 		tok.Literal = ""
